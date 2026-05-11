@@ -9,6 +9,7 @@ export default function AuditForm() {
   const [monthlySpend, setMonthlySpend] = useState("");
   const [teamSize, setTeamSize] = useState("");
   const [result, setResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const savedData = localStorage.getItem("audit-form");
@@ -35,7 +36,14 @@ export default function AuditForm() {
     );
   }, [tool, plan, monthlySpend, teamSize]);
 
-  const handleGenerateAudit = () => {
+  const handleGenerateAudit = async () => {
+
+    setLoading(true);
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
+
     const audit = generateAudit(
       tool,
       plan,
@@ -44,6 +52,8 @@ export default function AuditForm() {
     );
 
     setResult(audit);
+
+    setLoading(false);
   };
 
   return (
@@ -117,9 +127,10 @@ export default function AuditForm() {
 
         <button
           onClick={handleGenerateAudit}
-          className="bg-white text-black py-3 rounded-xl font-semibold hover:opacity-90 transition"
+          disabled={loading}
+          className="bg-white text-black py-3 rounded-xl font-semibold hover:opacity-90 transition disabled:opacity-50"
         >
-          Generate Audit
+          {loading ? "Generating Audit..." : "Generate Audit"}
         </button>
 
         {result && (
