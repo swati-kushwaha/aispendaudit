@@ -170,6 +170,16 @@ export default function AuditForm() {
                 </p>
               </div>
 
+              <div className="pt-4 border-t border-zinc-800">
+                <p className="text-sm text-gray-400 mb-2">
+                  AI-Generated Summary
+                </p>
+
+                <p className="text-gray-300 leading-relaxed">
+                  {result.summary}
+                </p>
+              </div>
+
             </div>
           </div>
         )}
