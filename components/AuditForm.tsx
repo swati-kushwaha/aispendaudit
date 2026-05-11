@@ -1,6 +1,7 @@
 "use client";
 
 import { generateAudit } from "@/lib/audit";
+import SavingsChart from "@/components/SavingsChart";
 import { useEffect, useState } from "react";
 
 export default function AuditForm() {
@@ -189,6 +190,13 @@ export default function AuditForm() {
                 <p className="text-gray-300 leading-relaxed">
                   {result.summary}
                 </p>
+              </div>
+
+              <div className="mt-10">
+                <SavingsChart
+                  monthlySavings={result.savings}
+                  annualSavings={result.annualSavings}
+                />
               </div>
 
             </div>
