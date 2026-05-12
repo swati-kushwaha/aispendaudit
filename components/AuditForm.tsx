@@ -52,6 +52,35 @@ export default function AuditForm() {
       Number(teamSize)
     );
 
+    try {
+
+      const response = await fetch("/api/summary", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          tool,
+          plan,
+          monthlySpend,
+          teamSize,
+          recommendation: audit.recommendation,
+          savings: audit.savings,
+        }),
+      });
+
+      const data = await response.json();
+
+      audit.summary = data.summary;
+
+    } catch (error) {
+
+      audit.summary =
+        "Unable to generate AI summary at the moment.";
+    }
+
     setResult(audit);
 
     setLoading(false);
