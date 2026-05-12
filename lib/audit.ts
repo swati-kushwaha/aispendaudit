@@ -13,7 +13,7 @@ export function generateAudit(
   teamSize: number
 ): AuditResult {
 
-  // ChatGPT Enterprise downgrade
+  
   if (
     tool === "chatgpt" &&
     plan.toLowerCase() === "enterprise" &&
@@ -33,7 +33,7 @@ export function generateAudit(
     };
   }
 
-  // Cursor optimization
+  
   if (
     tool === "cursor" &&
     monthlySpend > 100
@@ -52,7 +52,7 @@ export function generateAudit(
     };
   }
 
-  // Claude optimization
+  
   if (
     tool === "claude" &&
     monthlySpend > 150
@@ -71,7 +71,7 @@ export function generateAudit(
     };
   }
 
-  // Copilot optimization
+  
   if (
     tool === "copilot" &&
     teamSize <= 2 &&
@@ -91,7 +91,7 @@ export function generateAudit(
     };
   }
 
-  // Gemini optimization
+  
   if (
     tool === "gemini" &&
     monthlySpend > 80
@@ -110,7 +110,7 @@ export function generateAudit(
     };
   }
 
-  // Default response
+  
   return {
     recommendation: "Your current setup looks optimized",
     savings: 0,
