@@ -5,7 +5,6 @@ import {
   Bar,
   XAxis,
   Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
 interface SavingsChartProps {
@@ -30,22 +29,23 @@ export default function SavingsChart({
   ];
 
   return (
-    <div className="h-72 w-full">
+    <div className="w-full overflow-x-auto">
 
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
+      <BarChart
+        width={500}
+        height={300}
+        data={data}
+      >
+        <XAxis dataKey="name" />
 
-          <XAxis dataKey="name" />
+        <Tooltip />
 
-          <Tooltip />
+        <Bar
+          dataKey="savings"
+          radius={[10, 10, 0, 0]}
+        />
 
-          <Bar
-            dataKey="savings"
-            radius={[10, 10, 0, 0]}
-          />
-
-        </BarChart>
-      </ResponsiveContainer>
+      </BarChart>
 
     </div>
   );

@@ -3,6 +3,7 @@
 import { generateAudit } from "@/lib/audit";
 import SavingsChart from "@/components/SavingsChart";
 import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function AuditForm() {
   const [tool, setTool] = useState("");
@@ -12,6 +13,7 @@ export default function AuditForm() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [reportId, setReportId] = useState("");
 
   useEffect(() => {
     const savedData = localStorage.getItem("audit-form");
@@ -80,6 +82,26 @@ export default function AuditForm() {
 
       audit.summary =
         "Unable to generate AI summary at the moment.";
+    }
+
+    const { data } = await supabase
+      .from("audit_reports")
+      .insert([
+        {
+          tool,
+          plan,
+          monthly_spend: Number(monthlySpend),
+          team_size: Number(teamSize),
+          recommendation: audit.recommendation,
+          savings: audit.savings,
+          annual_savings: audit.annualSavings,
+          summary: audit.summary,
+        },
+      ])
+      .select();
+
+    if (data && data.length > 0) {
+      setReportId(data[0].id);
     }
 
     setResult(audit);
@@ -227,36 +249,55 @@ export default function AuditForm() {
                   monthlySavings={result.savings}
                   annualSavings={result.annualSavings}
                 />
-                <div className="mt-10 border-t border-zinc-800 pt-8">
-
-  <h4 className="text-2xl font-semibold mb-4">
-    Get Full Audit Report
-  </h4>
-
-  <p className="text-gray-400 mb-6">
-    Enter your email to receive your AI savings report.
-  </p>
-
-  <div className="flex gap-4">
-
-    <input
-      type="email"
-      placeholder="Enter your email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      className="flex-1 p-3 rounded-xl bg-zinc-900 border border-zinc-700"
-    />
-
-    <button
-      className="bg-white text-black px-6 rounded-xl font-semibold"
-    >
-      Send Report
-    </button>
-
-  </div>
-
-</div>
               </div>
+
+              <div className="mt-10 border-t border-zinc-800 pt-8">
+
+                <h4 className="text-2xl font-semibold mb-4">
+                  Get Full Audit Report
+                </h4>
+
+                <p className="text-gray-400 mb-6">
+                  Enter your email to receive your AI savings report.
+                </p>
+
+                <div className="flex gap-4">
+
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1 p-3 rounded-xl bg-zinc-900 border border-zinc-700"
+                  />
+
+                  <button
+                    className="bg-white text-black px-6 rounded-xl font-semibold"
+                  >
+                    Send Report
+                  </button>
+
+                </div>
+
+              </div>
+
+              {reportId && (
+                <div className="mt-8 border-t border-zinc-800 pt-6">
+
+                  <p className="text-sm text-gray-400 mb-2">
+                    Shareable Report Link
+                  </p>
+
+                  <a
+                    href={`/report/${reportId}`}
+                    target="_blank"
+                    className="text-green-400 break-all underline"
+                  >
+                    {window.location.origin}/report/{reportId}
+                  </a>
+
+                </div>
+              )}
 
             </div>
           </div>
