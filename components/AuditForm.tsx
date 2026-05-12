@@ -11,6 +11,7 @@ export default function AuditForm() {
   const [teamSize, setTeamSize] = useState("");
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const savedData = localStorage.getItem("audit-form");
@@ -226,6 +227,35 @@ export default function AuditForm() {
                   monthlySavings={result.savings}
                   annualSavings={result.annualSavings}
                 />
+                <div className="mt-10 border-t border-zinc-800 pt-8">
+
+  <h4 className="text-2xl font-semibold mb-4">
+    Get Full Audit Report
+  </h4>
+
+  <p className="text-gray-400 mb-6">
+    Enter your email to receive your AI savings report.
+  </p>
+
+  <div className="flex gap-4">
+
+    <input
+      type="email"
+      placeholder="Enter your email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      className="flex-1 p-3 rounded-xl bg-zinc-900 border border-zinc-700"
+    />
+
+    <button
+      className="bg-white text-black px-6 rounded-xl font-semibold"
+    >
+      Send Report
+    </button>
+
+  </div>
+
+</div>
               </div>
 
             </div>
