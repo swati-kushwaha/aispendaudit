@@ -272,6 +272,38 @@ export default function AuditForm() {
                   />
 
                   <button
+                    onClick={async () => {
+
+                      if (!email || !result || !reportId) {
+                        return;
+                      }
+
+                      try {
+
+                        await fetch("/api/send-email", {
+                          method: "POST",
+
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+
+                          body: JSON.stringify({
+                            email,
+                            recommendation: result.recommendation,
+                            savings: result.savings,
+                            summary: result.summary,
+                            reportLink:
+                              `${window.location.origin}/report/${reportId}`,
+                          }),
+                        });
+
+                        alert("Email sent successfully!");
+
+                      } catch (error) {
+
+                        alert("Failed to send email");
+                      }
+                    }}
                     className="bg-white text-black px-6 rounded-xl font-semibold"
                   >
                     Send Report
